@@ -34,6 +34,8 @@ in
       add = "git add .";
       push = "git push";
       pull = "git pull";
+      gcm = "git commit -m";
+      gpp = "git push -origin main";
       m = "git switch main";
       cc = "claude --dangerously-skip-permissions";
       co = "codex --full-auto";
