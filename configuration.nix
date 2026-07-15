@@ -28,6 +28,10 @@
   nix-homebrew = {
     enable = true;
     inherit user;
+    # Adopt a pre-existing Homebrew install instead of erroring out. Inert on a
+    # machine nix-homebrew already manages; needed for a clean first switch on a
+    # fresh Mac that already had Homebrew (e.g. reproducing this setup elsewhere).
+    autoMigrate = true;
   };
   homebrew = {
     enable = true;

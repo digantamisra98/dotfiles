@@ -30,6 +30,10 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            # Rename any pre-existing dotfile (e.g. a hand-written ~/.zshrc) to
+            # <name>.backup instead of refusing to overwrite it. Lets the first
+            # switch adopt a machine that already had these files.
+            home-manager.backupFileExtension = "backup";
             home-manager.extraSpecialArgs = { inherit user; };
             home-manager.users.${user} = import ./home.nix;
           }
