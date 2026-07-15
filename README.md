@@ -46,13 +46,12 @@ Change the host label or CPU architecture if needed, and read the Homebrew clean
 ./bootstrap.sh
 ```
 
-`bootstrap.sh` does four things, in order:
+`bootstrap.sh` does three things, in order:
 
 1. Installs Determinate Nix, if it isn't already installed.
 2. Symlinks this repo to `~/.dotfiles`.
    This has to happen before the first build, because `home.nix` points at config files through `~/.dotfiles`.
-3. Checks the `user` configured in `flake.nix` against your actual macOS username, and offers to fix it for you if they differ.
-4. Runs the first `darwin-rebuild switch`.
+3. Runs the first `darwin-rebuild switch`.
    It fetches the `darwin-rebuild` tool from the nix-darwin 26.05 release branch, then applies this repo's locked flake config.
 
 After that, `darwin-rebuild` exists and you're on the normal workflow below.
@@ -62,10 +61,11 @@ After that, `darwin-rebuild` exists and you're on the normal workflow below.
 Once Nix is installed (`bootstrap.sh` step 1 handles that), you can check that the config builds without touching your system - handy when you have edited something:
 
 ```sh
-nix flake check --no-build
-nix build .#darwinConfigurations.mac.system --dry-run
+nix flake check --no-build --impure
+nix build .#darwinConfigurations.mac.system --dry-run --impure
 ```
 
+`--impure` is needed because `flake.nix` reads your username from the environment.
 If you renamed the host label in "Make it yours", substitute your label for `mac` in these commands.
 
 ## Daily use
@@ -84,7 +84,8 @@ No separate build-and-copy step.
 This repo is mine.
 If you clone it, review these before you run `bootstrap.sh`:
 
-- **Username**: run `./bootstrap.sh` (it detects your macOS username and offers to set it) OR change the single `user = "digantamisra"` line in `flake.nix`.
+- **Username**: nothing to change.
+  `flake.nix` reads your macOS username from the environment at build time (`SUDO_USER` under sudo, `USER` otherwise), so the same branch works on any machine.
   Everything else (`configuration.nix`, `home.nix`, home directory paths) is threaded from that one variable.
 - **Host label** `"mac"`, in three places: `flake.nix` (the `darwinConfigurations."mac"` name), `rebuild.sh:5` (the `#mac` at the end of the flake reference), and `bootstrap.sh`'s first-switch command (also `#mac`).
   All three have to match.

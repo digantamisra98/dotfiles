@@ -20,9 +20,16 @@
 
   outputs = inputs@{ self, nix-darwin, nix-homebrew, home-manager, nixpkgs, ... }:
     let
-      # The one username line to change if this isn't your machine.
-      # bootstrap.sh offers to rewrite this for you if your macOS username differs.
-      user = "digantamisra";
+      # Read the username from the environment at evaluation time, so the same
+      # branch builds on any machine with no per-machine edits. SUDO_USER wins
+      # because darwin-rebuild runs under sudo, where USER is "root".
+      # getEnv needs impure evaluation - rebuild.sh and bootstrap.sh pass --impure.
+      sudoUser = builtins.getEnv "SUDO_USER";
+      envUser = builtins.getEnv "USER";
+      user =
+        if sudoUser != "" then sudoUser
+        else if envUser != "" && envUser != "root" then envUser
+        else throw "Cannot determine the username: run via ./rebuild.sh, or pass --impure so flake.nix can read $USER.";
     in
     {
       darwinConfigurations."mac" = nix-darwin.lib.darwinSystem {
