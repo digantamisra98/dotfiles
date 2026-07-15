@@ -32,6 +32,7 @@ in
     shellAliases = {
       ".." = "cd ..";
       add = "git add .";
+      status = "git status";
       push = "git push";
       pull = "git pull";
       gcm = "git commit -m";
@@ -39,6 +40,7 @@ in
       m = "git switch main";
       cc = "claude --dangerously-skip-permissions";
       co = "codex --full-auto";
+      delds = "find . -type f -name '.DS_Store' -delete";
     };
   };
 
