@@ -11,5 +11,5 @@
   If something clearly looks off, even if it is not directly related to what you are doing, try to get it fixed along the way.
 - Apply that same high standard to engineering excellence: lint, test failures, and test flakiness.
   If you see one, even if it is not caused by what you are working on right now, still get it fixed.
-
-
+- When running jobs on compute clusters, always allocate resources that will maximize usage throughout the job. 
+- When doing literature review, provide a comprehensive report in a HTML or markdown file containing the high level idea of the paper, blogpost, webpage along with central claims, results and potential weaknesses or conflicts with our proposal.
