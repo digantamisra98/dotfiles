@@ -34,12 +34,22 @@
     onActivation.cleanup = "zap";  # remove anything not listed here
     onActivation.autoUpdate = true;
     onActivation.extraFlags = [ "--force" ];
+    # Top-level formulae only (from `brew leaves`); dependencies are pulled
+    # in automatically, so they are intentionally not listed here.
     brews = [
+      "bash"
+      "fish"
+      "gemini-cli"
+      "gh"
+      "git"
       "herdr"
+      "python@3.14"
+      "uv"
     ];
     casks = [
       "wezterm"
       "claude-code"
+      "copilot-cli"
     ];
   };
 }
