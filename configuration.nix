@@ -54,6 +54,7 @@
       "wezterm"
       "claude-code"
       "copilot-cli"
+      "opensuperwhisper"
     ];
   };
 }
